@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cholinesterase — The Neural Guardian</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,700;1,400;1,500&family=Lora:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Tenor+Sans&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --deep-navy:    #0D1B2A;
+    --navy-mid:     #122034;
+    --navy-light:   #1A2E45;
+    --navy-card:    #162338;
+    --teal-dark:    #0E2A2A;
+    --teal-mid:     #0F3535;
+    --teal-accent:  #1B5E5E;
+    --gold:         #C9A84C;
+    --gold-light:   #E2C06B;
+    --gold-pale:    #F5E8B8;
+    --gold-dim:     #8A6B2A;
+    --text-bright:  #F0EAD6;
+    --text-mid:     #C8BFA8;
+    --text-soft:    #9A8E7A;
+    --rule:         rgba(201,168,76,0.3);
+    --card-border:  rgba(201,168,76,0.18);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--deep-navy);
+    color: var(--text-bright);
+    font-family: 'Lora', Georgia, serif;
+    font-size: 18px;
+    line-height: 1.8;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed; inset: 0; z-index: 0; pointer-events: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='250' height='250'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='250' height='250' filter='url(%23g)' opacity='0.035'/%3E%3C/svg%3E");
+    opacity: 0.8;
+  }
+
+  /* HERO */
+  .hero {
+    position: relative;
+    background:
+      radial-gradient(ellipse 100% 80% at 50% 0%,   #1a3a5c 0%, transparent 60%),
+      radial-gradient(ellipse 60%  60% at 10% 100%,  #0a2a2a 0%, transparent 55%),
+      radial-gradient(ellipse 50%  50% at 90% 80%,   #112244 0%, transparent 55%),
+      linear-gradient(170deg, #0a1520 0%, #0d1b2a 50%, #0a2020 100%);
+    min-height: 100vh;
+    display: flex; flex-direction: column;
+    justify-content: center; align-items: center;
+    text-align: center;
+    padding: 5rem 2rem 6rem;
+    overflow: hidden;
+  }
+
+  .hero-glow {
+    position: absolute;
+    width: 600px; height: 600px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(201,168,76,0.07) 0%, transparent 70%);
+    top: 50%; left: 50%;
+    transform: translate(-50%, -55%);
+    pointer-events: none;
+    animation: pulse 6s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { transform: translate(-50%, -55%) scale(1);    opacity: 0.7; }
+    50%       { transform: translate(-50%, -55%) scale(1.15); opacity: 1;   }
+  }
+
+  .hero::after {
+    content: '';
+    position: absolute; inset: 2.5rem;
+    border: 1px solid rgba(201,168,76,0.2);
+    pointer-events: none;
+  }
+
+  .hero-badge {
+    font-family: 'Tenor Sans', sans-serif;
+    font-size: 0.65rem; letter-spacing: 0.45em;
+    color: var(--gold); text-transform: uppercase;
+    margin-bottom: 1.75rem;
+    position: relative; z-index: 1;
+    opacity: 0; animation: riseIn 0.9s ease forwards 0.3s;
+  }
+
+  .hero-title {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: clamp(3.2rem, 9vw, 7rem);
+    line-height: 1.0; letter-spacing: -0.02em;
+    color: var(--text-bright);
+    position: relative; z-index: 1;
+    opacity: 0; animation: riseIn 1s ease forwards 0.5s;
+  }
+
+  .hero-title span {
+    display: block; font-weight: 400;
+    font-style: italic; font-size: 0.65em;
+    color: var(--gold-light); letter-spacing: 0.02em;
+    margin-top: 0.2em;
+  }
+
+  .hero-keywords {
+    font-family: 'Tenor Sans', sans-serif;
+    font-size: 0.7rem; letter-spacing: 0.5em;
+    color: var(--text-soft); text-transform: uppercase;
+    margin-top: 1.5rem;
+    position: relative; z-index: 1;
+    opacity: 0; animation: riseIn 1s ease forwards 0.7s;
+  }
+
+  .hero-line {
+    width: 100px; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    margin: 2rem auto;
+    position: relative; z-index: 1;
+    opacity: 0; animation: riseIn 0.8s ease forwards 0.85s;
+  }
+
+  .hero-desc {
+    max-width: 620px; font-size: 1rem;
+    color: var(--text-mid); font-style: italic;
+    position: relative; z-index: 1;
+    opacity: 0; animation: riseIn 1s ease forwards 1s;
+    line-height: 1.85;
+  }
+
+  /* NAV DOTS */
+  .nav-dots {
+    position: fixed; right: 1.8rem; top: 50%;
+    transform: translateY(-50%); z-index: 200;
+    display: flex; flex-direction: column; gap: 0.8rem;
+  }
+  .nav-dot {
+    width: 7px; height: 7px; border-radius: 50%;
+    background: var(--navy-light); border: 1px solid var(--gold-dim);
+    cursor: pointer; transition: all 0.3s; text-decoration: none;
+  }
+  .nav-dot:hover, .nav-dot.active {
+    background: var(--gold); border-color: var(--gold);
+    box-shadow: 0 0 10px rgba(201,168,76,0.55); transform: scale(1.3);
+  }
+
+  /* SECTIONS */
+  .section {
+    position: relative; z-index: 1;
+    padding: 6.5rem 2rem; max-width: 920px; margin: 0 auto;
+  }
+
+  .section-alt {
+    background: linear-gradient(180deg, var(--teal-dark) 0%, #0c2424 100%);
+    position: relative; z-index: 1;
+  }
+  .section-alt .section-inner {
+    max-width: 920px; margin: 0 auto; padding: 6.5rem 2rem;
+  }
+
+  .section-tag {
+    font-family: 'Tenor Sans', sans-serif;
+    font-size: 0.6rem; letter-spacing: 0.45em;
+    color: var(--gold); text-transform: uppercase;
+    margin-bottom: 0.8rem;
+    display: flex; align-items: center; gap: 1rem;
+  }
+  .section-tag::after {
+    content: ''; flex: 1; height: 1px;
+    background: linear-gradient(90deg, var(--gold-dim), transparent);
+    max-width: 90px; opacity: 0.6;
+  }
+
+  .section-heading {
+    font-family: 'Playfair Display', serif;
+    font-weight: 500;
+    font-size: clamp(2rem, 4.5vw, 3.2rem);
+    line-height: 1.1; color: var(--text-bright); margin-bottom: 1.5rem;
+  }
+  .section-heading em { font-style: italic; color: var(--gold-light); font-weight: 400; }
+
+  /* TYPE CARDS */
+  .types-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 1.5rem; margin-top: 2.5rem;
+  }
+  @media (max-width: 640px) { .types-grid { grid-template-columns: 1fr; } }
+
+  .type-card {
+    background: linear-gradient(135deg, #0e2a3a 0%, #0a1f2e 100%);
+    border: 1px solid var(--card-border);
+    border-top: 2px solid var(--gold);
+    padding: 2rem 1.8rem;
+    position: relative; overflow: hidden;
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+  .type-card::after {
+    content: ''; position: absolute; bottom: -30px; right: -30px;
+    width: 90px; height: 90px; border-radius: 50%;
+    background: rgba(201,168,76,0.06);
+  }
+  .type-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 14px 40px rgba(0,0,0,0.4), 0 0 0 1px rgba(201,168,76,0.25);
+  }
+  .type-abbr {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.65rem; font-weight: 700; color: var(--gold-light); margin-bottom: 0.3rem;
+  }
+  .type-name {
+    font-family: 'Lora', serif; font-size: 1rem; font-style: italic;
+    color: var(--text-soft); margin-bottom: 0.8rem;
+  }
+  .type-desc { font-size: 0.88rem; color: var(--text-mid); line-height: 1.7; }
+
+  /* EQUATION */
+  .equation-block {
+    background: linear-gradient(135deg, #081520 0%, #0a1e2e 100%);
+    border: 1px solid var(--card-border);
+    border-left: 3px solid var(--gold);
+    padding: 2rem 2.5rem; margin: 2.5rem 0;
+  }
+  .equation-label {
+    font-family: 'Tenor Sans', sans-serif;
+    font-size: 0.58rem; letter-spacing: 0.35em;
+    color: var(--gold); text-transform: uppercase; margin-bottom: 1rem;
+  }
+  .equation-text {
+    font-family: 'Playfair Display', serif; font-size: 1.2rem;
+    color: var(--text-bright);
+    display: flex; align-items: center; gap: 0.8rem; flex-wrap: wrap;
+  }
+  .eq-compound { color: var(--gold-light); font-style: italic; }
+  .eq-plus { color: var(--text-soft); }
+  .eq-arrow-wrap { display: flex; flex-direction: column; align-items: center; gap: 2px; }
+  .eq-over { font-family: 'Tenor Sans', sans-serif; font-size: 0.55rem; letter-spacing: 0.1em; color: var(--gold); text-transform: uppercase; }
+  .eq-arrow-sym { font-size: 1.5rem; color: var(--text-soft); line-height: 1; }
+
+  .crisis-box {
+    background: linear-gradient(135deg, #1a0e08 0%, #150a05 100%);
+    border: 1px solid rgba(201,168,76,0.2);
+    border-left: 3px solid #8B4513;
+    padding: 1.5rem 2rem; margin-top: 2rem; position: relative;
+  }
+  .crisis-box::before {
+    content: '⚠'; position: absolute; top: -13px; left: 1.5rem;
+    background: #1a0e08; padding: 0 0.5rem; color: var(--gold-light); font-size: 0.9rem;
+  }
+  .crisis-box p { color: var(--text-mid); font-style: italic; font-size: 0.95rem; }
+
+  /* CLINICAL */
+  .clinical-list { display: flex; flex-direction: column; gap: 1.25rem; margin-top: 2.5rem; }
+  .clinical-item {
+    display: grid; grid-template-columns: 56px 1fr;
+    gap: 1.5rem; align-items: start;
+    background: linear-gradient(135deg, #0e2a3a 0%, #0a1e2e 100%);
+    border: 1px solid var(--card-border); padding: 1.6rem;
+    transition: box-shadow 0.3s, border-color 0.3s;
+  }
+  .clinical-item:hover {
+    border-color: rgba(201,168,76,0.4);
+    box-shadow: 0 8px 30px rgba(0,0,0,0.35);
+  }
+  .clinical-icon {
+    width: 48px; height: 48px;
+    background: linear-gradient(135deg, var(--teal-accent), #0d3030);
+    border: 1px solid var(--card-border);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.35rem; flex-shrink: 0;
+  }
+  .clinical-title {
+    font-family: 'Tenor Sans', sans-serif;
+    font-size: 0.75rem; letter-spacing: 0.15em;
+    color: var(--gold-light); text-transform: uppercase; margin-bottom: 0.5rem;
+  }
+  .clinical-desc { font-size: 0.92rem; color: var(--text-mid); line-height: 1.7; }
+  .clinical-desc strong { color: var(--text-bright); font-weight: 600; }
+
+  /* DIAGNOSTIC */
+  .diag-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 1.75rem; margin-top: 2.5rem;
+  }
+  @media (max-width: 640px) { .diag-grid { grid-template-columns: 1fr; } }
+  .diag-card {
+    background: linear-gradient(160deg, #0c2828 0%, #091e1e 100%);
+    border: 1px solid var(--card-border);
+    border-top: 2px solid var(--gold);
+    padding: 2rem 1.8rem;
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+  .diag-card:hover { transform: translateY(-4px); box-shadow: 0 12px 35px rgba(0,0,0,0.4); }
+  .diag-role {
+    font-family: 'Tenor Sans', sans-serif;
+    font-size: 0.58rem; letter-spacing: 0.38em;
+    color: var(--gold); text-transform: uppercase; margin-bottom: 0.7rem;
+  }
+  .diag-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.25rem; font-weight: 500; color: var(--text-bright); margin-bottom: 0.8rem;
+  }
+  .diag-desc { font-size: 0.9rem; color: var(--text-mid); line-height: 1.7; }
+
+  /* REFERENCES */
+  .refs-section { background: linear-gradient(180deg, #060e15 0%, #050c12 100%); padding: 5.5rem 2rem; }
+  .refs-inner { max-width: 920px; margin: 0 auto; }
+  .refs-list { margin-top: 2rem; display: flex; flex-direction: column; gap: 0; }
+  .ref-item {
+    display: grid; grid-template-columns: 36px 1fr;
+    gap: 1rem; align-items: start;
+    padding: 1.25rem 0; border-bottom: 1px solid rgba(201,168,76,0.12);
+  }
+  .ref-item:last-child { border-bottom: none; }
+  .ref-num { font-family: 'Tenor Sans', sans-serif; font-size: 0.7rem; color: var(--gold); padding-top: 3px; }
+  .ref-text { font-size: 0.88rem; color: var(--text-soft); line-height: 1.65; font-style: italic; }
+  .ref-text strong { font-style: normal; color: var(--text-mid); font-weight: 600; }
+
+  /* FOOTER */
+  footer {
+    background: #030810; color: var(--gold-dim);
+    text-align: center; padding: 2rem;
+    font-family: 'Tenor Sans', sans-serif;
+    font-size: 0.58rem; letter-spacing: 0.4em; text-transform: uppercase;
+  }
+
+  /* PROSE */
+  .prose { font-size: 1rem; color: var(--text-mid); line-height: 1.85; }
+  .prose strong { color: var(--text-bright); }
+  .prose + .prose { margin-top: 1rem; }
+
+  .ornamental-rule {
+    display: flex; align-items: center; gap: 1rem; margin: 2.5rem 0;
+  }
+  .ornamental-rule::before, .ornamental-rule::after {
+    content: ''; flex: 1; height: 1px; background: var(--rule);
+  }
+  .ornamental-rule span { color: var(--gold); font-size: 1rem; opacity: 0.55; }
+
+  /* REVEAL */
+  .reveal { opacity: 0; transform: translateY(26px); transition: opacity 0.8s ease, transform 0.8s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  @keyframes riseIn {
+    from { opacity: 0; transform: translateY(22px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  ::-webkit-scrollbar { width: 5px; }
+  ::-webkit-scrollbar-track { background: var(--deep-navy); }
+  ::-webkit-scrollbar-thumb { background: var(--gold-dim); border-radius: 3px; }
+</style>
+</head>
+<body>
+
+<!-- NAV: now 7 dots for 6 sections + hero -->
+<nav class="nav-dots">
+  <a href="#hero"        class="nav-dot active" title="Top"></a>
+  <a href="#function"    class="nav-dot" title="Function"></a>
+  <a href="#tissue"      class="nav-dot" title="Tissue Source"></a>
+  <a href="#diagnostic"  class="nav-dot" title="Diagnostic"></a>
+  <a href="#precautions" class="nav-dot" title="Precautions"></a>
+  <a href="#levels"      class="nav-dot" title="Normal Levels"></a>
+  <a href="#references"  class="nav-dot" title="References"></a>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+  <div class="hero-glow"></div>
+  <p class="hero-badge">Clinical Biochemistry · Enzyme Analysis</p>
+  <h1 class="hero-title">
+    Cholinesterase
+    <span>AChE &amp; BChE</span>
+  </h1>
+  <p class="hero-keywords">Enzyme &nbsp;·&nbsp; Synapse &nbsp;·&nbsp; Hydrolysis</p>
+  <div class="hero-line"></div>
+  <p class="hero-desc">
+    A comprehensive clinical study of the biological stop switch governing nerve impulse transmission —
+    its function, tissue origins, diagnostic significance, and laboratory measurement.
+  </p>
+</section>
+
+<!-- SECTION 1: FUNCTION -->
+<section class="section" id="function">
+  <div class="reveal">
+    <p class="section-tag">Section I</p>
+    <h2 class="section-heading">The Function<br><em>of This Enzyme</em></h2>
+  </div>
+  <div class="ornamental-rule reveal"><span>✦</span></div>
+  <p class="prose reveal">
+    Cholinesterase is a vital enzyme that acts as a <strong>"biological stop switch."</strong>
+    Its primary function is to catalyze the hydrolysis of the neurotransmitter
+    <strong>Acetylcholine (ACh)</strong> into Choline and Acetic Acid.
+  </p>
+  <p class="prose reveal" style="margin-top:1rem; transition-delay:0.05s">
+    <strong>Mechanism:</strong> This reaction terminates the transmission of nerve impulses across synapses,
+    preventing continuous muscle contraction or overstimulation of the nervous system.
+  </p>
+
+  <div class="equation-block reveal" style="transition-delay:0.15s">
+    <p class="equation-label">Hydrolysis Reaction</p>
+    <div class="equation-text">
+      <span class="eq-compound">Acetylcholine (ACh)</span>
+      <span class="eq-plus">+</span>
+      <span class="eq-compound">H₂O</span>
+      <span class="eq-arrow-wrap">
+        <span class="eq-over">Cholinesterase</span>
+        <span class="eq-arrow-sym">⟶</span>
+      </span>
+      <span class="eq-compound">Choline</span>
+      <span class="eq-plus">+</span>
+      <span class="eq-compound">Acetic Acid</span>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 2: TISSUE SOURCE -->
+<div class="section-alt" id="tissue">
+<div class="section-inner">
+  <div class="reveal">
+    <p class="section-tag">Section II</p>
+    <h2 class="section-heading">Tissue Source<br><em>Where It Is Synthesized</em></h2>
+  </div>
+  <div class="ornamental-rule reveal"><span>✦</span></div>
+  <p class="prose reveal">
+    There are two main types of cholinesterase, each distinguished by their site of synthesis and primary location in the body.
+  </p>
+
+  <div class="types-grid reveal" style="transition-delay:0.1s">
+    <div class="type-card">
+      <div class="type-abbr">AChE</div>
+      <div class="type-name">True Cholinesterase</div>
+      <p class="type-desc">Primarily found in the <strong style="color:var(--gold-light)">Gray matter of the brain</strong>, nerve endings, and the membranes of <strong style="color:var(--gold-light)">Red Blood Cells (RBCs)</strong>. It is the principal terminator of cholinergic transmission at the neuromuscular junction.</p>
+    </div>
+    <div class="type-card">
+      <div class="type-abbr">BChE</div>
+      <div class="type-name">Pseudocholinesterase · Butyrylcholinesterase</div>
+      <p class="type-desc">Synthesized mainly in the <strong style="color:var(--gold-light)">Liver</strong> and secreted into the <strong style="color:var(--gold-light)">Blood Plasma</strong>. Also found in the pancreas and heart. Serves as a key biomarker of hepatic synthetic function.</p>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- SECTION 3: DIAGNOSTIC SIGNIFICANCE -->
+<section class="section" id="diagnostic">
+  <div class="reveal">
+    <p class="section-tag">Section III</p>
+    <h2 class="section-heading">Diagnostic Significance</h2>
+  </div>
+  <div class="ornamental-rule reveal"><span>✦</span></div>
+  <p class="prose reveal">Measuring cholinesterase levels is clinically crucial for the following conditions:</p>
+
+  <div class="clinical-list">
+    <div class="clinical-item reveal" style="transition-delay:0.05s">
+      <div class="clinical-icon">☠</div>
+      <div>
+        <p class="clinical-title">Organophosphate Poisoning</p>
+        <p class="clinical-desc">Low levels are a <strong>definitive diagnostic marker</strong> for exposure to pesticides or nerve agents. Inhibition of AChE leads to uncontrolled accumulation of acetylcholine at synapses, producing the characteristic cholinergic toxidrome.</p>
+      </div>
+    </div>
+    <div class="clinical-item reveal" style="transition-delay:0.1s">
+      <div class="clinical-icon">🫀</div>
+      <div>
+        <p class="clinical-title">Liver Function Assessment</p>
+        <p class="clinical-desc">Since BChE is produced in the liver, <strong>low plasma levels</strong> serve as an indicator of chronic liver diseases such as <em>Cirrhosis</em> or <em>Hepatitis</em>, reflecting reduced hepatic synthetic capacity.</p>
+      </div>
+    </div>
+    <div class="clinical-item reveal" style="transition-delay:0.15s">
+      <div class="clinical-icon">⚕</div>
+      <div>
+        <p class="clinical-title">Surgical Safety · Anesthesia</p>
+        <p class="clinical-desc">Identifies patients with <strong>genetic BChE deficiency</strong> who cannot break down muscle relaxants like <em>Succinylcholine</em>, preventing prolonged respiratory paralysis (<em>Apnea</em>) following standard anesthetic doses.</p>
+      </div>
+    </div>
+    <div class="clinical-item reveal" style="transition-delay:0.2s">
+      <div class="clinical-icon">🧠</div>
+      <div>
+        <p class="clinical-title">Monitoring Alzheimer's Disease</p>
+        <p class="clinical-desc">Cholinesterase assays are used to <strong>follow up on patients</strong> receiving cholinesterase inhibitor therapy (Donepezil, Rivastigmine, Galantamine), evaluating pharmacodynamic response and cognitive improvement.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 4: PRECAUTIONS & SOURCES OF ERROR -->
+<div class="section-alt" id="precautions">
+<div class="section-inner">
+  <div class="reveal">
+    <p class="section-tag">Sections IV &amp; V</p>
+    <h2 class="section-heading">Precautions &amp; Sources of Error<br><em>Enzyme Assay</em></h2>
+  </div>
+  <div class="ornamental-rule reveal"><span>✦</span></div>
+  <p class="prose reveal">To ensure an accurate measurement (Assay), the following must be carefully considered:</p>
+
+  <div class="clinical-list" style="margin-top:2rem">
+    <div class="clinical-item reveal" style="transition-delay:0.05s">
+      <div class="clinical-icon" style="font-size:1.1rem">🩸</div>
+      <div>
+        <p class="clinical-title">Avoid Hemolysis</p>
+        <p class="clinical-desc">If RBCs rupture during sampling, <strong>"True Cholinesterase" (AChE)</strong> will leak into the plasma, causing a <em>falsely high reading</em> of plasma cholinesterase levels.</p>
+      </div>
+    </div>
+    <div class="clinical-item reveal" style="transition-delay:0.1s">
+      <div class="clinical-icon" style="font-size:1.1rem">🧪</div>
+      <div>
+        <p class="clinical-title">Anticoagulant Choice</p>
+        <p class="clinical-desc">Using <strong>Fluoride</strong> or certain oxalates can inhibit enzyme activity, leading to <em>false low results</em>. <strong>Heparin</strong> is usually the preferred anticoagulant for cholinesterase assays.</p>
+      </div>
+    </div>
+    <div class="clinical-item reveal" style="transition-delay:0.15s">
+      <div class="clinical-icon" style="font-size:1.1rem">🌡</div>
+      <div>
+        <p class="clinical-title">Sample Stability</p>
+        <p class="clinical-desc">Samples must be <strong>refrigerated</strong> promptly after collection. High temperatures accelerate <em>thermal denaturation</em>, degrading enzyme activity and producing falsely low results.</p>
+      </div>
+    </div>
+    <div class="clinical-item reveal" style="transition-delay:0.2s">
+      <div class="clinical-icon" style="font-size:1.1rem">💊</div>
+      <div>
+        <p class="clinical-title">Patient History</p>
+        <p class="clinical-desc">Recent use of <strong>oral contraceptives</strong> or <strong>pregnancy</strong> can naturally lower plasma BChE levels slightly. This physiological variation must be accounted for in clinical interpretation.</p>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- SECTION 5: NORMAL LEVELS -->
+<section class="section" id="levels">
+  <div class="reveal">
+    <p class="section-tag">Section VI</p>
+    <h2 class="section-heading">Normal Levels<br><em>Reference Ranges</em></h2>
+  </div>
+  <div class="ornamental-rule reveal"><span>✦</span></div>
+  <p class="prose reveal" style="font-style:italic; color:var(--text-soft); font-size:0.9rem">
+    Note: Reference ranges may vary slightly between laboratories.
+  </p>
+
+  <div class="diag-grid reveal" style="transition-delay:0.1s; margin-top:2rem">
+    <div class="diag-card">
+      <p class="diag-role">Plasma · BChE</p>
+      <h3 class="diag-title">Pseudocholinesterase</h3>
+      <p class="diag-desc" style="font-size:1.4rem; color:var(--gold-light); font-family:'Playfair Display',serif; font-weight:700; margin:0.5rem 0">5,300 – 12,900 U/L</p>
+      <p class="diag-desc">Units per Liter — measured in serum or plasma. Reflects hepatic synthetic function and BChE activity.</p>
+    </div>
+    <div class="diag-card" style="transition-delay:0.15s">
+      <p class="diag-role">RBC · AChE</p>
+      <h3 class="diag-title">True Cholinesterase</h3>
+      <p class="diag-desc" style="font-size:1.4rem; color:var(--gold-light); font-family:'Playfair Display',serif; font-weight:700; margin:0.5rem 0">30 – 40 U/g Hb</p>
+      <p class="diag-desc">Units per gram of Hemoglobin — measured in RBC lysate. Used in organophosphate exposure monitoring.</p>
+    </div>
+  </div>
+
+  <div class="crisis-box reveal" style="margin-top:2.5rem; transition-delay:0.2s">
+    <p>
+      Values significantly below these ranges — particularly in combination with a history of pesticide exposure
+      or relevant clinical symptoms — should prompt immediate further investigation and clinical correlation.
+    </p>
+  </div>
+</section>
+
+<!-- REFERENCES -->
+<section class="refs-section" id="references">
+<div class="refs-inner">
+  <p class="section-tag">References</p>
+  <h2 class="section-heading">Academic <em>Sources</em></h2>
+  <div class="ornamental-rule" style="margin:2rem 0"><span>✦</span></div>
+  <ol class="refs-list">
+    <li class="ref-item">
+      <span class="ref-num">01</span>
+      <p class="ref-text"><strong>StatPearls Publishing (NCBI).</strong> Cholinesterase Inhibitors and Enzyme Activity. <em>[NCBI Online Resource].</em></p>
+    </li>
+    <li class="ref-item">
+      <span class="ref-num">02</span>
+      <p class="ref-text"><strong>Mayo Clinic Laboratories.</strong> Cholinesterase, RBC and Plasma — Clinical Reference.</p>
+    </li>
+    <li class="ref-item">
+      <span class="ref-num">03</span>
+      <p class="ref-text"><strong>Tietz Textbook of Clinical Chemistry and Molecular Diagnostics.</strong> Section on Liver Enzymes and Neurotransmitters.</p>
+    </li>
+    <li class="ref-item">
+      <span class="ref-num">04</span>
+      <p class="ref-text"><strong>World Health Organization (WHO).</strong> Manual on Management of Exposure to Pesticides.</p>
+    </li>
+  </ol>
+</div>
+</section>
+
+<footer>
+  <p>Cholinesterase Enzyme &nbsp;·&nbsp; AChE &amp; BChE &nbsp;·&nbsp; Clinical Biochemistry Study</p>
+</footer>
+
+<script>
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+  const secObs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        document.querySelectorAll('.nav-dot').forEach(d => d.classList.remove('active'));
+        const dot = document.querySelector(`.nav-dot[href="#${e.target.id}"]`);
+        if (dot) dot.classList.add('active');
+      }
+    });
+  }, { threshold: 0.35 });
+  document.querySelectorAll('[id]').forEach(s => secObs.observe(s));
+</script>
+</body>
+</html>
